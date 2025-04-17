@@ -1,0 +1,39 @@
+# === Maven ===
+/demo/target/
+
+# === Gradle ===
+/demo/.gradle/
+/demo/build/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+/demo/.idea/
+/demo/*.iws
+/demo/*.iml
+/demo/*.ipr
+
+### VS Code ###
+/demo/.vscode/
+
+### Spring Tool Suite (STS) ###
+/demo/.apt_generated
+/demo/.classpath
+/demo/.factorypath
+/demo/.project
+/demo/.settings
+/demo/.springBeans
+/demo/.sts4-cache
+
+### NetBeans ###
+/demo/nbproject/private/
+/demo/nbbuild/
+/demo/dist/
+/demo/nbdist/
+/demo/.nb-gradle/
+
+!/demo/**/src/main/**/build/
+!/demo/**/src/test/**/build/

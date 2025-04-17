@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.example'
+version = '1.0.0-SNAPSHOT'
+description = 'Internal Library Demo'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
+    withJavadocJar()
+}
+
+repositories {
+    maven {
+        name = 'mavenPublic'
+        url = uri('http://localhost:8081/repository/maven-public/')
+        allowInsecureProtocol = true
+    }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'demo'
+                description = 'Internal Library Demo'
+                url = 'https://appcucode.com'
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'arian'
+                        name = 'Arian Prieto'
+                        email = 'arianpp.90@gmail.com'
+                        organization = 'APPCU CODE'
+                        organizationUrl = 'https://appcucode.com'
+                    }
+                }
+            }
+        }
+    }
+
+    // === Determine the repository type dynamically ===
+    repositories {
+        def isSnapshot = project.version.toString().endsWith("SNAPSHOT")
+        def repoType = isSnapshot ? "SNAPSHOT" : "RELEASE"
+        def repoPath = isSnapshot ? "nexus-snapshots" : "nexus-releases"
+
+        println ">>> Deploying '${project.name}' version ${project.version} to Nexus (${repoType} repository)"
+
+        maven {
+            url = uri("http://localhost:8081/repository/${repoPath}/")
+            credentials {
+                username = "admin"
+                password = "nexus"
+            }
+            allowInsecureProtocol = true
+        }
+    }
+}
